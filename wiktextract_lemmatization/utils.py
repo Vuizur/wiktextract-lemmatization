@@ -72,7 +72,8 @@ def form_is_canonical(form: dict):
 
 
 FORM_TAGS_TO_IGNORE = ["table-tags", "auxiliary", "class", "inflection-template"]
-
+# It might be conceivable that the auxiliary tag is relevant for some languages, but I can't think of any right now.
+# At least for Danish and German, it causes problems.
 
 def form_has_ignored_tags(form: dict):
     return "tags" in form and any(tag in FORM_TAGS_TO_IGNORE for tag in form["tags"])
@@ -98,6 +99,7 @@ def fix_inflections(forms: list, lemma: str, language_code: str):
             if form_is_canonical(form):
                 fixed_forms.append(form)
             else:
+                fixed_forms.append(form)
                 if remove_macrons_etc_from_latin(form["form"]) != form["form"]:
                     fixed_forms.append(
                         {
